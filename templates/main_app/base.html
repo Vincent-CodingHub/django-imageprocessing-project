@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="{% static "images/logo.png" %}" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static "css/fypstyle.css" %}" />
+    <title>TechPalmtreedoctor</title>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script defer src="{% static "js/fypscript.js" %}"></script>
+  </head>
+  <body style="background-image: linear-gradient(180deg, #EBFFFD 50%, #FFFFFF 70%);">
+    <nav class="nav">
+      <a><img
+          src="{% static "images/logo_web.png" %}"
+          alt="The logo"
+          class="nav__logo"
+          id="logo"
+          data-version-number="3.0"
+          style="height: 10rem; width: 22rem;"
+      /></a>
+        <ul class="nav__links">
+          <li class="nav__item">
+            <a class="nav__link" href="{% url 'index' %}"><i class="fa fa-home"></i></a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="{% url 'main_app:information' %}">Information</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link " href="{% url 'index' %}#section--2">Guidedance</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link " href="{% url 'index' %}#section--3">Background</a>
+          </li>
+          <li class="nav__item"">
+            <a class="button_slide slide_left nav__link nav__link--btn" href="{% url 'index' %}#predict">Start predict</a>
+          </li>
+        </ul>
+      </nav>
+
+
+
+    {% block body_block %}
+    <!-- Anything outside of this will be inherited if you extend! -->
+    {% endblock %}
+  </body>
+</html>

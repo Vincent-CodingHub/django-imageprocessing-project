@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+{% extends 'main_app/base.html' %} {% block body_block %}
+{% load static %}
+
+<section class="section" id="section--0" style="background-image: url(http://sawitsecure.mpob.gov.my/wp-content/uploads/2021/08/bg4-scaled.jpg);background-position: top center; background-repeat: no-repeat; background-size: cover;">
+  <div class="section__title" style="border-radius: 25px; padding: 40px; background-color: rgba(0,0,0,.4);">
+    <h3 class="section__header" style="color: white; font-size: 60px;">Welcome to the TechPalmtreedoctor</h3>
+    <h2 class="section__description" style="color: white;">Detection of Palm Oil Leaf Disease with Deep Learning</h2>
+  </div>
+</section>
+<hr>
+
+<header class="header">
+  <div class="header__title" id="predict">
+    <div class="section__title">
+      <h2 class="section__description">Let's start</h2>
+      <h3 class="section__header" style="box-shadow: 5px 10px #39b385;">
+        Upload your image and start to predict it !!!
+      </h3>
+    </div>
+    <br/>
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'main_app:predictImage' %}" style="border-style: groove;">
+    {% csrf_token %}
+
+      <div class="file-upload">
+
+        <div class="image-upload-wrap">
+          <input name="filePath" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+          <div class="drag-text">
+            <h3>Drag and drop a file or select add Image</h3>
+          </div>
+        </div>
+        <div class="file-upload-content">
+          <img class="file-upload-image" src="#" alt="your image" />
+          <div class="image-title-wrap">
+            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+          </div>
+        </div>
+        <input class="btn btn--submit button_slide2 slide_left2" type="submit" value="Predict" style="background-color: #066a2d; color: white;"></div>
+      </div>
+
+    </form>
+  </div>
+</header>
+
+{% if predictedLabel %}
+  <!-- First section -->
+  <section class="section" id="section--1">
+    <div class="section__title">
+      <h2 class="section__description">Classification Result</h2>
+      <h3 class="section__header">
+        The image is classified as <i style="color: #1fb264;">{{predictedLabel}}</i>.
+      </h3><br>
+      <h4>
+        Below is the symptom of the disease and the solution to control the disease.
+      </h4><br>
+    </div>
+    
+    <div class="features"> 
+      {% if predictedLabel == 'orangespotting' %}
+        <div class="features__feature" style="font-size: 1.9rem;">
+          <p>
+            <h5>Symptoms:</h5>
+            <li>Bright orange spotting on expanded leaflets of oil palm.</li>
+            <li>In young fronds, the spots are interveinal, vary in shapes and the size is about 2-3 mm long.</li>
+            <li>In older fronds, the spots coalesced into larger spot.</li>
+            <li>OS palm generally stunted, bronze and orange colored from a distance, bear smaller or no bunches and presences as isolated palms.</li>
+          </p>
+          <br>
+          <p>
+            <h5>Causal agents:</h5>
+            <li>Coconut cadang-cadang viroid, the smallest pathogen known.</li>
+            <li>Presence in several variants.</li>
+            <li>All variants are infectious and the 256 variant was found frequently in the field.</li>
+          </p>
+          <br>
+          <p>
+            <h5>Disease management and controls:</h5>
+            <li>Elimination of infected tree.</li>
+          </p>
+          <br>
+          <p>For more information, you can click on this <a target="_blank" href="http://sawitsecure.mpob.gov.my/orange-spotting/">link</a>.</p>
+        </div>
+
+      {% elif predictedLabel == 'charcoalrot' %}
+        <div class="features__feature" style="font-size: 1.9rem;">
+          <p>
+            <h5>Symptoms:</h5>
+            <li>Symptoms are initially seen on the oldest fronds which become a yellowish colored and die.</li>
+            <li>The stem base is affected by a black, dry rot which is extremely hard and extends as a band of necrotic tissues across the entire base.</li>
+          </p>
+          <br>
+          <p>
+            <h5>Causal agents:</h5>
+            <li><i>Ustulina deusta</i>, originally known as <i>U. zonata</i>.</li>
+          </p>
+          <br>
+          <p>
+            <h5>Disease management and controls:</h5>
+            <li>By the time the foliar symptoms are visible, the internally structure already severe that treatment is impossible.</li>
+            <li>Sanitation is required to remove the disease palms.</li>
+          </p>
+          <br>
+          <p>For more information, you can click on this <a target="_blank" href="http://sawitsecure.mpob.gov.my/charcoal-rot/">link</a>.</p>
+        </div>
+
+        {% elif predictedLabel == 'bunchrot' %}
+          <div class="features__feature" style="font-size: 1.9rem;">
+            <p>
+              <h5>Symptoms:</h5>
+              <li>During the early stages of infection, strands of mycelium can be seen spreading over the bunch surface.</li>
+              <li>Mycelium development is particularly profuse at the back of the bunch, against the base of the subtending frond where conditions are very moist.</li>
+              <li>In the later stage, the mycelium grows over the fruit surface and penetrates the mesocarp.</li>
+            </p>
+            <br>
+            <p>
+              <h5>Causal agents:</h5>
+              <li><i>Marasmius palmivorus</i>.</li>
+            </p>
+            <br>
+            <p>
+              <h5>Disease management and controls:</h5>
+              <li>Sanitation and maintenance of an adequate level of pollination.</li>
+              <li>Prophylactic sprays of fungicides such as copper fungicides (i.e. copper oxide and Bordeaux mixture) or thiram can be carried out as a preventative control are also recommended.</li>
+            </p>
+            <br>
+            <p>For more information, you can click on this <a target="_blank" href="http://sawitsecure.mpob.gov.my/bunch-rot/">link</a>.</p>
+          </div>
+
+        {% elif predictedLabel == 'stemwetrot' %}
+          <div class="features__feature" style="font-size: 1.9rem;">
+            <p>
+              <h5>Symptoms:</h5>
+              <li>The first symptom is usually the sudden and simultaneous death of all unexpanded spear leaves, and the youngest expanded fronds surrounding the spears. 
+              </li>
+              <li>This is followed by the appearance of a dull yellowish discoloration in the remaining fronds, which then rapidly wither and die, until the whole crown has been killed. </li>
+              <li>When the trunk is split, the internal tissues have been almost completely destroyed. </li>
+              <li>The disease is typified by a wet, putrid rot which is brown, yellow or greyish in colour, and has a very objectionable smell.</li>
+            </p>
+            <br>
+            <p>
+              <h5>Causal agents:</h5>
+              <li>There is no proven pathogen causing the disease, however, the type of rot found in the stem suggests that a bacterium is involved. </li>
+              <li>A number of commonly-rotting fungi have been isolated from diseased tissues but these are very unlikely to be primary pathogens, although possibly accelerating tissue destruction.</li>
+            </p>
+            <br>
+            <p>
+              <h5>Disease management and controls:</h5>
+              <li>Improve drainage to reduce high water-table.</li>
+              <li>Infected palm should be excavated and disposed of in the interrow to prevent their colonization by potentially pathogenic fungi.</li>
+            </p>
+            <br>
+            <p>For more information, you can click on this <a target="_blank" href="http://sawitsecure.mpob.gov.my/stem-wet-rot/">link</a>.</p>
+          </div>
+
+        {% elif predictedLabel == 'sootymold' %}
+          <div class="features__feature" style="font-size: 1.9rem;">
+            <p>
+              <h5>Symptoms:</h5>
+              <li>Dark threadlike growth (mycelium) of the fungi resembling a layer of soot that grows on plants and other surfaces covered by dark black mycelium on the upper surface or lower side of the oil palm leaves.</li>
+              <li>Attacks leaf of old frond oil palm. </li>
+              <li>The fungi do not infiltrate into leaf tissue or causing physical damage. </li>
+              <li>Unlike true fungal diseases, sooty mold is easily wiped from the leaf surface.</li>
+            </p>
+            <br>
+            <p>
+              <h5>Causal agents:</h5>
+              <li>Several pathogens of the oil palm sooty mold are identified as <i>Meliola elaeidis</i> (Afrika); <i>Brooksia tropicalis</i> (Africa, Sabah, PNG); <i>Ceramothyrium</i> sp. (Sabah) and <i>Capnodium</i> sp. (Thailand).
+              </li>
+              <li>The disease can be spread through spores released by the fungus through wind, rainwater or vectors such as koya, aphid, mealybug, scale or whitefly.
+              </li>
+            </p>
+            <br>
+            <p>
+              <h5>Disease management and controls:</h5>
+              <li>The infected oil palm leaves should be removed and prune to prevent them from spreading to other healthy leaves. </li>
+              <li>Adequate ventilation and sunlight in the field should be emphasized so that it reaches all parts of the palm leaves.</li>
+            </p>
+            <br>
+            <p>For more information, you can click on this <a target="_blank" href="http://sawitsecure.mpob.gov.my/sooty-mold/">link</a>.</p>
+          </div>
+        
+        {% elif predictedLabel == 'algaeleafspot' %}
+          <div class="features__feature" style="font-size: 1.9rem;">
+            <p>
+              <h5>Symptoms:</h5>
+              <li>The presence of algae of various colors on the upper surface of the leaves of old fronds. </li>
+              <li>Usually, the color of the colony is a brownish red that grows in patches and will eventually coalesce into larger patches. </li>
+              <li>The shape of the colony is round and sometimes grows elongated. </li>
+              <li>When these colonies are scraped, no damage occurs to the leaves, but the color of the leaves turns a pale green. </li>
+              <li>This color change is due to the obstruction of algal colonies that do not allow sunlight to reach the leaf surface.</li>
+              <li>The disease attacks mature palm trees, especially in plantation areas near roadside or dusty areas. </li>
+            </p>
+            <br>
+            <p>
+              <h5>Causal agents:</h5>
+              <li><i>Cephaleuros</i> sp. algae and colonies of <i>Phycopeltis</i> sp. based on recent study in Perak, Johor and Terengganu.</li>
+              <li>The disease spread through spores released by algae, either through wind or rainwater. </li>
+            </p>
+            <br>
+            <p>
+              <h5>Disease management and controls:</h5>
+              <li>Removes the infected palm leaves to avoid infection to healthy trees. </li>
+              <li>Adequate ventilation and sunlight on the farm.</li>
+            </p>
+            <br>
+            <p>For more information, you can click on this <a target="_blank" href="http://sawitsecure.mpob.gov.my/algae-leaf-spot/">link</a>.</p>
+          </div>
+        {% endif %}
+
+        {% if chart %}
+          <img src="data:image/png;base64, {{chart | safe}}" alt="Graph" class="features__img" style="border: 1px solid black;"><br><br>
+        {% endif %}
+      </div>
+  </section>
+{% endif %}
+
+<!-- Second section -->
+<section class="section" id="section--2">
+  <div class="section__title">
+    <h2 class="section__description">Guidedance</h2>
+    <h3 class="section__header" style="box-shadow: 5px 10px #39b385;">
+      A quick introduction on how to use this application
+    </h3>
+  </div>
+
+  <div class="operations" style=" border-radius:25px; border: 3px solid black;">
+    <div class="operations__tab-container">
+      <button
+        class="btn operations__tab operations__tab--1 operations__tab--active"
+        style="background-color: #fcaf17;"
+        data-tab="1"
+      >
+        <span>01</span>Upload image
+      </button>
+      <!-- <button class="btn operations__tab operations__tab--2" data-tab="2">
+        <span>02</span>Choose model
+      </button> -->
+      <button class="btn operations__tab operations__tab--2" style="background-color: #066a2d" data-tab="2">
+        <span>02</span>Predict image
+      </button>
+    </div>
+
+    <div
+      class="operations__content operations__content--1 operations__content--active"
+    >
+      <div class="operations__icon operations__icon--1">
+        <svg>
+          <use xlink:href="{% static "images/icons.svg" %}#icon-upload"></use>
+        </svg>
+      </div>
+      <h5 class="operations__header">
+        Upload your desire image to the application.
+      </h5>
+      <p>
+        Click the button to upload your image. Image can only uploaded one at a
+        time.
+      </p>
+    </div>
+
+    <div class="operations__content operations__content--2">
+      <div class="operations__icon operations__icon--2">
+        <svg>
+          <use xlink:href="{% static "images/icons.svg" %}#icon-image"></use>
+        </svg>
+      </div>
+      <h5 class="operations__header">Start to predict the image.</h5>
+      <p>
+        Once the image is uploaded then you can start to predict the image.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Third section -->
+<section class="section" id="section--3">
+  <div class="section__title section__title--testimonials">
+    <h2 class="section__description">Background</h2>
+    <h3 class="section__header" style="box-shadow: 5px 10px #39b385;">The background of this project</h3>
+  </div>
+
+  <div class="slider" style="border: 3px solid black;">
+    <div class="slide slide--1">
+      <div class="testimonial">
+        <h5 class="testimonial__header">The goal of this project.</h5>
+        <blockquote class="testimonial__text" style="text-align: justify;">
+          This project aims to classify the image regarding the disease of a palm oil tree into its corresponding classes of disease using the deep learning technique. Disease infections on palm oil tree usually have certain symptoms, and the most basic technique for detecting infected palm oil trees is through visual inspection, which is known to require intensive labor and take more time. Moreover, using labor to classify these diseases can also lead to human error. Therefore, the time taken to determine the disease of palm oil tree can be reduced and the accuracy of the classification can be improved with the help of deep learning technique. At the same time, the inevitable mistakes caused by humans can also be avoided.
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="slide slide--2">
+      <div class="testimonial">
+        <h5 class="testimonial__header">Who is involved in this project?</h5>
+        <blockquote class="testimonial__text">
+          This project is carried out by student Chong Yu Jie and his supervisor, Dr. Nor Samsiah Sani from Faculty of Technology and Information Science, National University of Malaysia. Other than that, this project is also collaborated with the Malaysian Palm Oil Board, MPOB.
+        </blockquote>
+      </div>
+    </div>
+
+    <button class="slider__btn slider__btn--left">&larr;</button>
+    <button class="slider__btn slider__btn--right">&rarr;</button>
+    <div class="dots"></div>
+  </div>
+</section>
+
+{% endblock %}
