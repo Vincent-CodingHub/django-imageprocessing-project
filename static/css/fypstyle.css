@@ -44,14 +44,14 @@
   font-size: 1.7rem;
   font-weight: 400;
   cursor: pointer;
-  box-shadow: inset 0 0 0 0 #1fb264;
+  box-shadow: inset 0 0 0 0 #ffb003;
   -webkit-transition: ease-out 0.4s;
   -moz-transition: ease-out 0.4s;
   transition: ease-out 0.4s;
 }
 
 .slide_left2:hover {
-  box-shadow: inset 0 0 0 50px #1fb264;
+  box-shadow: inset 0 0 0 50px #ffb003;
 }
 
 #outer {
